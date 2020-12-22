@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/examples-p2p-call.iml" filepath="$PROJECT_DIR$/examples-p2p-call.iml" group="p2p-call" />
+      <module fileurl="file://$PROJECT_DIR$/p2p-call.iml" filepath="$PROJECT_DIR$/p2p-call.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/p2p-call-app.iml" filepath="$PROJECT_DIR$/app/p2p-call-app.iml" group="p2p-call/app" />
+      <module fileurl="file://$PROJECT_DIR$/skyway/skyway.iml" filepath="$PROJECT_DIR$/skyway/skyway.iml" group="p2p-call/skyway" />
+    </modules>
+  </component>
+</project>

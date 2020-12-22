@@ -1,0 +1,66 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="15dp" >
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorPrimary">
+
+                <ImageView
+                    android:id="@+id/imagenotileft"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_centerVertical="true"/>
+
+                <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/imagenotileft"
+                    android:layout_margin="10dp"
+                    android:textColor="@android:color/black"
+                    android:textStyle="bold"
+                    android:text="Saravanan K"/>
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/title"
+                    android:layout_margin="10dp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:text="http://saravananandroid.blogspot.in/"
+                    android:layout_toRightOf="@+id/imagenotileft" />
+
+                <ImageView
+                    android:id="@+id/imagenotiright"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:padding="10dp" />
+
+            </RelativeLayout>
+
+        </FrameLayout>
+
+        <ImageView
+            android:id="@+id/close"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="right|top" />
+    </FrameLayout>
+</RelativeLayout>
