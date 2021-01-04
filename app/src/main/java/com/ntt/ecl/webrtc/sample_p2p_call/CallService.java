@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,13 +12,17 @@ import android.widget.Button;
 import android.widget.Toast;
 
 
+import at.markushi.ui.CircleButton;
+import io.skyway.Peer.Browser.Canvas;
+import io.skyway.Peer.Browser.MediaStream;
 import io.skyway.Peer.DataConnection;
 import io.skyway.Peer.MediaConnection;
+import io.skyway.Peer.OnCallback;
 import io.skyway.Peer.Peer;
 import io.skyway.Peer.PeerError;
 import io.skyway.Peer.PeerOption;
 
-public class CallService extends Service implements View.OnTouchListener {
+public class CallService extends Service implements View.OnClickListener {
 
     private Peer _peer;
     private DataConnection _signalingChannel;
@@ -27,13 +32,8 @@ public class CallService extends Service implements View.OnTouchListener {
     private WindowManager.LayoutParams layoutParams;
     private MediaConnection _mediaConnection;
     private CallState _callState;
-    private Button answer;
-
-
-    @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        return false;
-    }
+    private CircleButton answer;
+    private CircleButton reject;
 
     public enum CallState {
         TERMINATED,
@@ -95,7 +95,7 @@ public class CallService extends Service implements View.OnTouchListener {
                 return;
             }
             _mediaConnection = (MediaConnection) object;
-//            _callState = CallState.CALLING;
+            _callState = CallState.CALLING;
             initView();
 
         });
@@ -118,13 +118,33 @@ public class CallService extends Service implements View.OnTouchListener {
 
         View view = View.inflate(this, R.layout.activity_incoming_call, mGroupView);
 
+        reject = view.findViewById(R.id.reject);
+        reject.setOnClickListener(this);
+
+        answer = view.findViewById(R.id.answer);
+        answer.setOnClickListener(this);
+
         layoutParams = new WindowManager.LayoutParams();
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE ;
+        layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.reject:
+                if (null != _signalingChannel && CallState.CALLING == _callState) {
+                    _signalingChannel.send("reject");
+                    _callState = CallState.TERMINATED;
+                    mWindowManager.removeView(mGroupView);
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
     @Override
     public IBinder onBind(Intent intent) {

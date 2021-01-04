@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -81,7 +82,6 @@ public class MainActivity extends Activity {
     private CallState		_callState;
 
     private Handler			_handler;
-    RipplePulse answer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -241,7 +241,7 @@ public class MainActivity extends Activity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], @NonNull int[] grantResults) {
         checkDrawOverlayPermission();
         switch (requestCode) {
             case 0: {
@@ -482,6 +482,7 @@ public class MainActivity extends Activity {
     // Unset callbacks for MediaConnection.MediaEvents
     //
     void unsetMediaCallbacks() {
+
         if(null == _mediaConnection){
             return;
         }
