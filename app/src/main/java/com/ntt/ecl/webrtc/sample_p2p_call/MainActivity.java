@@ -27,6 +27,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import com.ntt.ecl.webrtc.sample_p2p_call.views.RipplePulse;
+
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -44,58 +47,88 @@ import io.skyway.Peer.PeerError;
 import io.skyway.Peer.PeerOption;
 
 /**
+ *
  * MainActivity.java
  * ECL WebRTC p2p call sample
- * <p>
+ *
  * In this sample, a callee will be prompted by an alert-dialog to select
  * either "answer" or "reject" an incoming call (unlike p2p-videochat sample,
  * in which a callee will answer the call automatically).
+ *
  */
+
 public class MainActivity extends Activity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     //
     // Set your APIkey and Domain
     //
+    private static final String API_KEY = Constants.API_KEY;
+    private static final String DOMAIN = Constants.DOMAIN;
 
+    private Peer			_peer;
+    private MediaStream		_localStream;
+    private MediaStream		_remoteStream;
+    private MediaConnection	_mediaConnection;
+    private DataConnection 	_signalingChannel;
 
-    private Peer _peer;
-    private MediaStream _localStream;
-    private MediaStream _remoteStream;
-    private MediaConnection _mediaConnection;
-    private DataConnection _signalingChannel;
-
-    private String _strOwnId;
-
-    public enum CallState {
+    private String			_strOwnId;
+    public enum	CallState {
         TERMINATED,
         CALLING,
         ESTABLISHED
     }
+    private CallState		_callState;
 
-    private CallState _callState;
+    private Handler			_handler;
+    RipplePulse answer;
 
-    private Handler _handler;
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(!isSystemAlertPermissionGranted(this)) {
-            requestSystemAlertPermission(MainActivity.this,1);
-        }
-
 
         setContentView(R.layout.activity_main);
 
-        Intent intent = new Intent(this, CallService.class);
-        startService(intent);
+        _handler = new Handler(Looper.getMainLooper());
+        final Activity activity = this;
+        _callState = CallState.TERMINATED;
 
+        //
+        // Initialize Peer
+        //
         PeerOption option = new PeerOption();
-        option.key = Constants.API_KEY;
-        option.domain = Constants.DOMAIN;
+        option.key = API_KEY;
+        option.domain = DOMAIN;
         _peer = new Peer(this, option);
 
+        //
+        // Set Peer event callbacks
+        //
+
+        // OPEN
+        _peer.on(Peer.PeerEventEnum.OPEN, new OnCallback() {
+            @Override
+            public void onCallback(Object object) {
+
+                // Show my ID
+                _strOwnId = (String) object;
+                TextView tvOwnId = (TextView) findViewById(R.id.tvOwnId);
+                tvOwnId.setText(_strOwnId);
+
+                // Request permissions
+                if (ContextCompat.checkSelfPermission(activity,
+                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity,
+                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(activity,new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO},0);
+                }
+                else {
+
+                    // Get a local MediaStream & show it
+                    startLocalStream();
+                }
+
+            }
+        });
 
         // CALL (Incoming call)
         _peer.on(Peer.PeerEventEnum.CALL, new OnCallback() {
@@ -112,79 +145,144 @@ public class MainActivity extends Activity {
             }
         });
 
+        // CONNECT (Custom Signaling Channel for a call)
+        _peer.on(Peer.PeerEventEnum.CONNECTION, new OnCallback() {
+            @Override
+            public void onCallback(Object object) {
+                if (!(object instanceof  DataConnection)) {
+                    return;
+                }
+
+                _signalingChannel = (DataConnection) object;
+                setSignalingCallbacks();
+
+            }
+        });
+
+        _peer.on(Peer.PeerEventEnum.CLOSE, new OnCallback()	{
+            @Override
+            public void onCallback(Object object) {
+                Log.d(TAG, "[On/Close]");
+            }
+        });
+        _peer.on(Peer.PeerEventEnum.DISCONNECTED, new OnCallback() {
+            @Override
+            public void onCallback(Object object) {
+                Log.d(TAG, "[On/Disconnected]");
+            }
+        });
+        _peer.on(Peer.PeerEventEnum.ERROR, new OnCallback() {
+            @Override
+            public void onCallback(Object object) {
+                PeerError error = (PeerError) object;
+                Log.d(TAG, "[On/Error]" + error.getMessage());
+            }
+        });
+
+
         //
         // Set GUI event listeners
         //
 
         Button btnAction = (Button) findViewById(R.id.btnAction);
         btnAction.setEnabled(true);
-        btnAction.setOnClickListener(v -> {
-            v.setEnabled(false);
+        btnAction.setOnClickListener(new View.OnClickListener()	{
+            @Override
+            public void onClick(View v)	{
+                v.setEnabled(false);
 
-            if (CallState.TERMINATED == _callState) {
+                if (CallState.TERMINATED == _callState) {
 
-                // Select remote peer & make a call
-                showPeerIDs();
-            } else if (CallState.CALLING == _callState) {
-
-                // Cancel a call
-                if (null != _signalingChannel) {
-                    _signalingChannel.send("cancel");
+                    // Select remote peer & make a call
+                    showPeerIDs();
                 }
-                _callState = CallState.TERMINATED;
-                updateActionButtonTitle();
+                else if (CallState.CALLING == _callState) {
 
-            } else {
+                    // Cancel a call
+                    if(null != _signalingChannel) {
+                        _signalingChannel.send("cancel");
+                    }
+                    _callState = CallState.TERMINATED;
+                    updateActionButtonTitle();
 
-                // Hang up a call
-                closeRemoteStream();
-                _mediaConnection.close(true);
-                _signalingChannel.close(true);
-                _callState = CallState.TERMINATED;
-                updateActionButtonTitle();
+                }
+                else {
 
+                    // Hang up a call
+                    closeRemoteStream();
+                    _mediaConnection.close(true);
+                    _signalingChannel.close(true);
+                    _callState = CallState.TERMINATED;
+                    updateActionButtonTitle();
+
+                }
+
+                v.setEnabled(true);
             }
-
-            v.setEnabled(true);
         });
 
-        Button switchCameraAction = findViewById(R.id.switchCameraAction);
-        switchCameraAction.setOnClickListener(v -> {
-            if (null != _localStream) {
-                boolean result = _localStream.switchCamera();
+        Button switchCameraAction = (Button)findViewById(R.id.switchCameraAction);
+        switchCameraAction.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v)	{
+                if(null != _localStream){
+                    Boolean result = _localStream.switchCamera();
+                    if(true == result)	{
+                        //Success
+                    }
+                    else {
+                        //Failed
+                    }
+                }
+
             }
-
         });
-
     }
 
-    //for lollipop devices
-    public static void requestSystemAlertPermission(Activity context, int requestCode) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-            return;
-        final String packageName = context == null ? context.getPackageName() : context.getPackageName();
-        final Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:" + packageName));
-        if (context != null)
-            context.startActivityForResult(intent, requestCode);
-        else
-            context.startActivityForResult(intent, requestCode);
-    }
     @RequiresApi(api = Build.VERSION_CODES.M)
-    public static boolean isSystemAlertPermissionGranted(Context context) {
-        final boolean result = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || Settings.canDrawOverlays(context);
-        return result;
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        checkDrawOverlayPermission();
         switch (requestCode) {
             case 0: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     startLocalStream();
-                } else {
-                    Toast.makeText(this, "Failed to access the camera and microphone.\nclick allow when asked for permission.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(this,"Failed to access the camera and microphone.\nclick allow when asked for permission.", Toast.LENGTH_LONG).show();
                 }
                 break;
+            }
+        }
+    }
+
+    public final static int REQUEST_CODE = -1010101;
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void checkDrawOverlayPermission() {
+        Log.v("App", "Package Name: " + getApplicationContext().getPackageName());
+
+        // check if we already  have permission to draw over other apps
+        if (!Settings.canDrawOverlays(this)) {
+            Log.v("App", "Requesting Permission" + Settings.canDrawOverlays(this));
+            // if not construct intent to request permission
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getApplicationContext().getPackageName()));
+            startActivityForResult(intent, REQUEST_CODE);
+        } else {
+            Log.v("App", "We already have permission for it.");
+        }
+    }
+    @TargetApi(Build.VERSION_CODES.M)
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.v("App", "OnActivity Result.");
+        //check if received result code
+        //  is equal our requested code for draw permission
+        if (requestCode == REQUEST_CODE) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (Settings.canDrawOverlays(this)) {
+                }
             }
         }
     }
@@ -206,6 +304,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+
         // Set volume control stream type to WebRTC audio.
         setVolumeControlStream(AudioManager.STREAM_VOICE_CALL);
     }
@@ -218,17 +317,18 @@ public class MainActivity extends Activity {
     }
 
     @Override
-    protected void onStop() {
+    protected void onStop()	{
         // Enable Sleep and Screen Lock
-        Window wnd = getWindow();
-        wnd.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        wnd.clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+//        Window wnd = getWindow();
+//        wnd.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+//        wnd.clearFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
+        startService(new Intent(this, CallService.class));
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-//        destroyPeer();
+        destroyPeer();
         super.onDestroy();
     }
 
@@ -241,7 +341,7 @@ public class MainActivity extends Activity {
         _localStream = Navigator.getUserMedia(constraints);
 
         Canvas canvas = (Canvas) findViewById(R.id.svLocalView);
-        _localStream.addVideoRenderer(canvas, 0);
+        _localStream.addVideoRenderer(canvas,0);
     }
 
     //
@@ -254,13 +354,13 @@ public class MainActivity extends Activity {
             public void onCallback(Object object) {
                 _remoteStream = (MediaStream) object;
                 Canvas canvas = (Canvas) findViewById(R.id.svRemoteView);
-                _remoteStream.addVideoRenderer(canvas, 0);
+                _remoteStream.addVideoRenderer(canvas,0);
                 _callState = CallState.ESTABLISHED;
                 updateActionButtonTitle();
             }
         });
 
-        _mediaConnection.on(MediaConnection.MediaEventEnum.CLOSE, new OnCallback() {
+        _mediaConnection.on(MediaConnection.MediaEventEnum.CLOSE, new OnCallback()	{
             @Override
             public void onCallback(Object object) {
                 closeRemoteStream();
@@ -270,7 +370,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        _mediaConnection.on(MediaConnection.MediaEventEnum.ERROR, new OnCallback() {
+        _mediaConnection.on(MediaConnection.MediaEventEnum.ERROR, new OnCallback()	{
             @Override
             public void onCallback(Object object) {
                 PeerError error = (PeerError) object;
@@ -312,7 +412,7 @@ public class MainActivity extends Activity {
                 String message = (String) object;
                 Log.d(TAG, "[On/Data]" + message);
 
-                switch (message) {
+                switch(message) {
                     case "reject":
                         closeMediaConnection();
                         _signalingChannel.close(true);
@@ -340,7 +440,7 @@ public class MainActivity extends Activity {
 
         if (null != _localStream) {
             Canvas canvas = (Canvas) findViewById(R.id.svLocalView);
-            _localStream.removeVideoRenderer(canvas, 0);
+            _localStream.removeVideoRenderer(canvas,0);
             _localStream.close();
         }
 
@@ -366,7 +466,7 @@ public class MainActivity extends Activity {
     // Unset callbacks for PeerEvents
     //
     void unsetPeerCallback(Peer peer) {
-        if (null == _peer) {
+        if(null == _peer){
             return;
         }
 
@@ -382,7 +482,7 @@ public class MainActivity extends Activity {
     // Unset callbacks for MediaConnection.MediaEvents
     //
     void unsetMediaCallbacks() {
-        if (null == _mediaConnection) {
+        if(null == _mediaConnection){
             return;
         }
 
@@ -395,7 +495,7 @@ public class MainActivity extends Activity {
     // Close a MediaConnection
     //
     void closeMediaConnection() {
-        if (null != _mediaConnection) {
+        if (null != _mediaConnection)	{
             if (_mediaConnection.isOpen()) {
                 _mediaConnection.close(true);
             }
@@ -406,13 +506,13 @@ public class MainActivity extends Activity {
     //
     // Close a remote MediaStream
     //
-    void closeRemoteStream() {
+    void closeRemoteStream(){
         if (null == _remoteStream) {
             return;
         }
 
         Canvas canvas = (Canvas) findViewById(R.id.svRemoteView);
-        _remoteStream.removeVideoRenderer(canvas, 0);
+        _remoteStream.removeVideoRenderer(canvas,0);
         _remoteStream.close();
     }
 
@@ -473,7 +573,7 @@ public class MainActivity extends Activity {
                         if (!_strOwnId.equals(peerId)) {
                             _listPeerIds.add(peerId);
                         }
-                    } catch (Exception e) {
+                    } catch(Exception e){
                         e.printStackTrace();
                     }
                 }
@@ -496,7 +596,8 @@ public class MainActivity extends Activity {
                             });
                     dialog.setItems(_listPeerIds);
                     dialog.show(mgr, "peerlist");
-                } else {
+                }
+                else{
                     Toast.makeText(fContext, "PeerID list (other than your ID) is empty.", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -515,9 +616,11 @@ public class MainActivity extends Activity {
                 if (null != btnAction) {
                     if (CallState.TERMINATED == _callState) {
                         btnAction.setText("Make Call");
-                    } else if (CallState.CALLING == _callState) {
+                    }
+                    else if (CallState.CALLING == _callState) {
                         btnAction.setText("Cancel");
-                    } else {
+                    }
+                    else {
                         btnAction.setText("Hang up");
                     }
                 }
@@ -529,8 +632,7 @@ public class MainActivity extends Activity {
     // Show alert dialog on an incoming call
     //
     AlertDialog incomingCallDialog;
-
-    void showIncomingCallDialog() {
+    void showIncomingCallDialog(){
         incomingCallDialog = new AlertDialog.Builder(this)
                 .setTitle("Incoming call")
                 .setMessage("from : " + _mediaConnection.peer())
@@ -546,7 +648,7 @@ public class MainActivity extends Activity {
                 .setNegativeButton("Reject", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        if (null != _signalingChannel) {
+                        if(null != _signalingChannel){
                             _signalingChannel.send("reject");
                             _callState = CallState.TERMINATED;
                         }
@@ -558,8 +660,8 @@ public class MainActivity extends Activity {
     //
     // Dismiss alert dialog for an incoming call
     //
-    void dismissIncomingCallDialog() {
-        if (null != incomingCallDialog) {
+    void dismissIncomingCallDialog(){
+        if( null != incomingCallDialog ) {
             incomingCallDialog.cancel();
             incomingCallDialog = null;
         }

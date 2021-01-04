@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="RipplePulseLayout">
+        <attr name="rippleColor" format="color" />
+        <attr name="rippleType" format="enum">
+            <enum name="fill" value="0" />
+            <enum name="stroke" value="1" />
+        </attr>
+        <attr name="startRadius" format="dimension" />
+        <attr name="endRadius" format="dimension" />
+        <attr name="duration" format="integer" />
+        <attr name="strokeWidth" format="dimension" />
+    </declare-styleable>
+</resources>

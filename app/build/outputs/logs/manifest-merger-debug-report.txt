@@ -1,12 +1,13 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-41:12
+ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-42:12
 MERGED from [:skyway:] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\dc73d485507ea9ed4ff3f2828f35a432\skyway\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\83ae4edcdbcd935b4b42a07154fd5f16\constraint-layout-2.0.4\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\dfe95567a05aca3330c24fdf6263dbbc\appcompat-v7-28.0.0\AndroidManifest.xml:17:1-22:12
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\95f18dc3bb8b546f0ba6b21eaa7937ef\constraint-layout-1.1.3\AndroidManifest.xml:2:1-11:12
+MERGED from [com.github.markushi:circlebutton:1.1] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\b60e54072337a8e2b1c6aa32a9a52510\circlebutton-1.1\AndroidManifest.xml:2:1-11:12
 MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\15f4fc8ad2f47373fff2027bdd849131\support-fragment-28.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\3a3b83624704f181c7e72ea53ef48765\animated-vector-drawable-28.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\8ddd03308f8860e7fac1e04bba474513\support-core-ui-28.0.0\AndroidManifest.xml:17:1-22:12
@@ -32,20 +33,20 @@ MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\tranl\.gradle\cache
 MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\fe555977487fb73f9b11b93fcf899d47\livedata-core-1.1.1\AndroidManifest.xml:17:1-22:12
 MERGED from [android.arch.core:runtime:1.1.1] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\2f9274361b1d80e39ac6e45cadc78842\runtime-1.1.1\AndroidManifest.xml:17:1-22:12
 MERGED from [com.android.support:interpolator:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\bfcd67007ec17bc21c202f5a4587a554\interpolator-28.0.0\AndroidManifest.xml:17:1-22:12
-INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-41:12
-INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-41:12
+INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-42:12
+INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-42:12
 	package
 		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:3:5-49
 		INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml
 	android:versionName
 		INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-41:12
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-42:12
 		INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml
 	android:versionCode
 		INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-41:12
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:1-42:12
 		INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml
 	xmlns:android
 		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:2:11-69
@@ -88,13 +89,19 @@ ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk
 	android:name
 		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:16:22-77
 uses-permission#android.permission.SYSTEM_ALERT_WINDOW
-ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:17:5-77
+ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:17:5-78
 	android:name
 		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:17:22-75
+uses-permission#android.permission.ACTION_MANAGE_OVERLAY_PERMISSION
+ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:18:5-91
+	android:name
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:18:22-88
 application
-ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:19:5-39:19
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\95f18dc3bb8b546f0ba6b21eaa7937ef\constraint-layout-1.1.3\AndroidManifest.xml:9:5-20
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\95f18dc3bb8b546f0ba6b21eaa7937ef\constraint-layout-1.1.3\AndroidManifest.xml:9:5-20
+ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:20:5-40:19
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\83ae4edcdbcd935b4b42a07154fd5f16\constraint-layout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\83ae4edcdbcd935b4b42a07154fd5f16\constraint-layout-2.0.4\AndroidManifest.xml:9:5-20
+MERGED from [com.github.markushi:circlebutton:1.1] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\b60e54072337a8e2b1c6aa32a9a52510\circlebutton-1.1\AndroidManifest.xml:9:5-20
+MERGED from [com.github.markushi:circlebutton:1.1] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\b60e54072337a8e2b1c6aa32a9a52510\circlebutton-1.1\AndroidManifest.xml:9:5-20
 MERGED from [com.android.support:support-compat:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\423f55f9a3c2df55f7251a606d0b4237\support-compat-28.0.0\AndroidManifest.xml:22:5-94
 MERGED from [com.android.support:support-compat:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\423f55f9a3c2df55f7251a606d0b4237\support-compat-28.0.0\AndroidManifest.xml:22:5-94
 MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\cb09b4eac361a56cc687f479929e3ea8\versionedparcelable-28.0.0\AndroidManifest.xml:22:5-23:19
@@ -102,49 +109,51 @@ MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\tranl\.gra
 	android:appComponentFactory
 		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\423f55f9a3c2df55f7251a606d0b4237\support-compat-28.0.0\AndroidManifest.xml:22:18-91
 	android:supportsRtl
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:23:9-35
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:24:9-35
 	android:label
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:22:9-41
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:23:9-41
 	android:icon
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:21:9-43
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:22:9-43
 	android:allowBackup
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:20:9-35
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:21:9-35
 	android:theme
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:24:9-40
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:25:9-40
 service#com.ntt.ecl.webrtc.sample_p2p_call.CallService
-ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:26:9-48
+ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:27:9-48
 	android:name
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:26:18-45
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:27:18-45
 activity#com.ntt.ecl.webrtc.sample_p2p_call.MainActivity
-ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:28:9-38:20
+ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:29:9-39:20
 	android:label
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:31:13-62
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:32:13-62
 	android:configChanges
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:30:13-74
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:31:13-74
 	android:theme
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:32:13-71
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:33:13-71
 	android:name
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:29:13-41
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:30:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:33:13-37:29
+ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:34:13-38:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:34:17-69
+ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:35:17-69
 	android:name
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:34:25-66
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:35:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:36:17-77
+ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:37:17-77
 	android:name
-		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:36:27-74
+		ADDED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:37:27-74
 uses-sdk
 INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml
 INJECTED from C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml
 MERGED from [:skyway:] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\dc73d485507ea9ed4ff3f2828f35a432\skyway\AndroidManifest.xml:7:5-9:41
 MERGED from [:skyway:] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\dc73d485507ea9ed4ff3f2828f35a432\skyway\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\83ae4edcdbcd935b4b42a07154fd5f16\constraint-layout-2.0.4\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:2.0.4] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\83ae4edcdbcd935b4b42a07154fd5f16\constraint-layout-2.0.4\AndroidManifest.xml:5:5-7:41
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\dfe95567a05aca3330c24fdf6263dbbc\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\dfe95567a05aca3330c24fdf6263dbbc\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\95f18dc3bb8b546f0ba6b21eaa7937ef\constraint-layout-1.1.3\AndroidManifest.xml:5:5-7:41
-MERGED from [com.android.support.constraint:constraint-layout:1.1.3] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\95f18dc3bb8b546f0ba6b21eaa7937ef\constraint-layout-1.1.3\AndroidManifest.xml:5:5-7:41
+MERGED from [com.github.markushi:circlebutton:1.1] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\b60e54072337a8e2b1c6aa32a9a52510\circlebutton-1.1\AndroidManifest.xml:7:5-44
+MERGED from [com.github.markushi:circlebutton:1.1] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\b60e54072337a8e2b1c6aa32a9a52510\circlebutton-1.1\AndroidManifest.xml:7:5-44
 MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\15f4fc8ad2f47373fff2027bdd849131\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\15f4fc8ad2f47373fff2027bdd849131\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
 MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\3a3b83624704f181c7e72ea53ef48765\animated-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
