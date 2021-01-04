@@ -986,9 +986,6 @@ id stroke
 id submenuarrow
 id submit_area
 id subtitle
-id svLocalView
-id svRemoteView
-id switchCameraAction
 id tabMode
 id tag_transition_group
 id tag_unhandled_key_event_manager
