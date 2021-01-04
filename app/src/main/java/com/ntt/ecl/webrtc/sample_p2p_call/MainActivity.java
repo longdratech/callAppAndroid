@@ -340,8 +340,8 @@ public class MainActivity extends Activity {
         MediaConstraints constraints = new MediaConstraints();
         _localStream = Navigator.getUserMedia(constraints);
 
-        Canvas canvas = (Canvas) findViewById(R.id.svLocalView);
-        _localStream.addVideoRenderer(canvas,0);
+//        Canvas canvas = (Canvas) findViewById(R.id.svLocalView);
+//        _localStream.addVideoRenderer(canvas,0);
     }
 
     //
@@ -353,8 +353,8 @@ public class MainActivity extends Activity {
             @Override
             public void onCallback(Object object) {
                 _remoteStream = (MediaStream) object;
-                Canvas canvas = (Canvas) findViewById(R.id.svRemoteView);
-                _remoteStream.addVideoRenderer(canvas,0);
+//                Canvas canvas = (Canvas) findViewById(R.id.svRemoteView);
+//                _remoteStream.addVideoRenderer(canvas,0);
                 _callState = CallState.ESTABLISHED;
                 updateActionButtonTitle();
             }
