@@ -834,7 +834,8 @@ id beginning
 id blocking
 id bottom
 id bounce
-id btnAction
+id btnCall
+id btnEnd
 id buttonPanel
 id cache_measures
 id callerName
@@ -908,6 +909,7 @@ id italic
 id jumpToEnd
 id jumpToStart
 id layout
+id layoutBottom
 id left
 id line1
 id line3
@@ -1005,6 +1007,7 @@ id transitionToEnd
 id transitionToStart
 id triangle
 id tvOwnId
+id txtPeerId
 id uniform
 id up
 id useLogo
