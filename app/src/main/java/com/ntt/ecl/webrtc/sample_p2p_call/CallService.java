@@ -78,6 +78,10 @@ public class CallService extends Service {
         option.domain = Constants.DOMAIN;
         peer = new Peer(this, option);
         Toast.makeText(this, "onCreate service", Toast.LENGTH_SHORT).show();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+            startMyOwnForeground();
+        else
+            startForeground(1, new Notification());
     }
 
     void setSignalingCallbacks() {
@@ -103,16 +107,28 @@ public class CallService extends Service {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
+    private void startMyOwnForeground(){
+        String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
+        String channelName = "My Background Service";
+        NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
+        chan.setLightColor(Color.BLUE);
+        chan.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        assert manager != null;
+        manager.createNotificationChannel(chan);
+
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID);
+        Notification notification = notificationBuilder.setOngoing(true)
+                .setSmallIcon(R.drawable.answer_button)
+                .setContentTitle("App is running in background")
+                .setPriority(NotificationManager.IMPORTANCE_MIN)
+                .setCategory(Notification.CATEGORY_SERVICE)
+                .build();
+        startForeground(1, notification);
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        NotificationChannel channel = new NotificationChannel(CHANNEL_ID,CHANNEL_NAME,
-//                NotificationManager.IMPORTANCE_HIGH);
-//
-//        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//        manager.createNotificationChannel(channel);
-//
-//        Notification notification = new Notification.Builder(getApplicationContext(),CHANNEL_ID).build();
-//        startForeground(1, notification);
 
         Toast.makeText(this, "onStartCommand service", Toast.LENGTH_SHORT).show();
         peer.on(Peer.PeerEventEnum.OPEN, object -> {
@@ -176,7 +192,9 @@ public class CallService extends Service {
         layoutParams = new WindowManager.LayoutParams();
         layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
-        layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
+        layoutParams.type = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                : WindowManager.LayoutParams.TYPE_PHONE ;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
     }
 

@@ -5,9 +5,13 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Build;
@@ -18,6 +22,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Button;
@@ -228,13 +233,20 @@ public class MainActivity extends Activity {
         super.onPause();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onStop() {
         Intent intent = new Intent(this,CallService.class);
-        startService(intent);
+        if(Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O) {
+            Toast.makeText(this, "startForegroundService", Toast.LENGTH_SHORT).show();
+            startForegroundService(intent);
+        }else {
+            Toast.makeText(this, "startService", Toast.LENGTH_SHORT).show();
+            startService(intent);
+        }
         super.onStop();
     }
+
+
 
     @Override
     protected void onDestroy() {

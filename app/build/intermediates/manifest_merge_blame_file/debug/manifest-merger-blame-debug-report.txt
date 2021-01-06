@@ -11,85 +11,88 @@
 9-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml
 10
 11    <uses-feature android:name="android.hardware.camera" />
-11-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:5:5-60
-11-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:5:19-57
+11-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:6:5-60
+11-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:6:19-57
 12    <uses-feature android:name="android.hardware.camera.autofocus" />
-12-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:6:5-70
-12-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:6:19-67
+12-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:7:5-70
+12-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:7:19-67
 13    <uses-feature
-13-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:7:5-9:35
+13-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:8:5-10:35
 14        android:glEsVersion="0x00020000"
-14-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:8:9-41
+14-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:9:9-41
 15        android:required="true" />
-15-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:9:9-32
+15-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:10:9-32
 16
 17    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-17-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:11:5-79
-17-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:11:22-76
+17-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:12:5-79
+17-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:12:22-76
 18    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-18-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:12:5-76
-18-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:12:22-73
+18-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:13:5-76
+18-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:13:22-73
 19    <uses-permission android:name="android.permission.INTERNET" />
-19-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:13:5-67
-19-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:13:22-64
+19-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:14:5-67
+19-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:14:22-64
 20    <uses-permission android:name="android.permission.CAMERA" />
-20-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:14:5-65
-20-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:14:22-62
+20-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:15:5-65
+20-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:15:22-62
 21    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-21-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:15:5-71
-21-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:15:22-68
+21-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:16:5-71
+21-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:16:22-68
 22    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-22-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:16:5-80
-22-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:16:22-77
+22-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:17:5-80
+22-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:17:22-77
 23    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-23-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:17:5-78
-23-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:17:22-75
+23-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:18:5-78
+23-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:18:22-75
 24    <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
-24-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:18:5-91
-24-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:18:22-88
-25
-26    <application
-26-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:20:5-40:19
-27        android:allowBackup="true"
-27-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:21:9-35
-28        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
-28-->[com.android.support:support-compat:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\423f55f9a3c2df55f7251a606d0b4237\support-compat-28.0.0\AndroidManifest.xml:22:18-91
-29        android:debuggable="true"
-30        android:extractNativeLibs="false"
-31        android:icon="@mipmap/ic_launcher"
-31-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:22:9-43
-32        android:label="@string/app_name"
-32-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:23:9-41
-33        android:supportsRtl="true"
-33-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:24:9-35
-34        android:testOnly="true"
-35        android:theme="@style/AppTheme" >
-35-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:25:9-40
-36        <service android:name="com.ntt.ecl.webrtc.sample_p2p_call.CallService" />
-36-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:27:9-48
-36-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:27:18-45
-37
-38        <activity
-38-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:29:9-39:20
-39            android:name="com.ntt.ecl.webrtc.sample_p2p_call.MainActivity"
-39-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:30:13-41
-40            android:configChanges="orientation|keyboardHidden|screenSize"
-40-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:31:13-74
-41            android:label="@string/title_activity_video_chat"
-41-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:32:13-62
-42            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-42-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:33:13-71
-43            <intent-filter>
-43-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:34:13-38:29
-44                <action android:name="android.intent.action.MAIN" />
-44-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:35:17-69
-44-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:35:25-66
-45
-46                <category android:name="android.intent.category.LAUNCHER" />
-46-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:37:17-77
-46-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:37:27-74
-47            </intent-filter>
-48        </activity>
-49    </application>
-50
-51</manifest>
+24-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:19:5-91
+24-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:19:22-88
+25    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+25-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:20:5-77
+25-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:20:22-74
+26
+27    <application
+27-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:22:5-42:19
+28        android:allowBackup="true"
+28-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:23:9-35
+29        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+29-->[com.android.support:support-compat:28.0.0] C:\Users\tranl\.gradle\caches\transforms-2\files-2.1\423f55f9a3c2df55f7251a606d0b4237\support-compat-28.0.0\AndroidManifest.xml:22:18-91
+30        android:debuggable="true"
+31        android:extractNativeLibs="false"
+32        android:icon="@mipmap/ic_launcher"
+32-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:24:9-43
+33        android:label="@string/app_name"
+33-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:25:9-41
+34        android:supportsRtl="true"
+34-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:26:9-35
+35        android:testOnly="true"
+36        android:theme="@style/AppTheme" >
+36-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:27:9-40
+37        <service android:name="com.ntt.ecl.webrtc.sample_p2p_call.CallService" />
+37-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:29:9-48
+37-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:29:18-45
+38
+39        <activity
+39-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:31:9-41:20
+40            android:name="com.ntt.ecl.webrtc.sample_p2p_call.MainActivity"
+40-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:32:13-41
+41            android:configChanges="orientation|keyboardHidden|screenSize"
+41-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:33:13-74
+42            android:label="@string/title_activity_video_chat"
+42-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:34:13-62
+43            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
+43-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:35:13-71
+44            <intent-filter>
+44-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:36:13-40:29
+45                <action android:name="android.intent.action.MAIN" />
+45-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:37:17-69
+45-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:37:25-66
+46
+47                <category android:name="android.intent.category.LAUNCHER" />
+47-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:39:17-77
+47-->C:\Users\tranl\Downloads\skyway-android-sdk-master\skyway-android-sdk-master\examples\p2p-call\app\src\main\AndroidManifest.xml:39:27-74
+48            </intent-filter>
+49        </activity>
+50    </application>
+51
+52</manifest>
