@@ -1,5 +1,6 @@
 package com.ntt.ecl.webrtc.sample_p2p_call;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,16 +11,22 @@ import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
+import android.media.AudioManager;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -36,9 +43,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.ntt.ecl.webrtc.sample_p2p_call.enums.CallState;
+
 import java.util.Date;
 
 import at.markushi.ui.CircleButton;
+import io.skyway.Peer.Browser.MediaConstraints;
+import io.skyway.Peer.Browser.MediaStream;
+import io.skyway.Peer.Browser.Navigator;
 import io.skyway.Peer.DataConnection;
 import io.skyway.Peer.MediaConnection;
 import io.skyway.Peer.Peer;
@@ -46,9 +58,10 @@ import io.skyway.Peer.PeerError;
 import io.skyway.Peer.PeerOption;
 
 public class CallService extends Service {
-
+    private MediaPlayer mediaPlayer;
     private DataConnection _signalingChannel;
     private WindowManager mWindowManager;
+    private MediaStream _localStream;
     private MyGroupView mGroupView;
     private WindowManager.LayoutParams layoutParams;
     private MediaConnection _mediaConnection;
@@ -58,17 +71,6 @@ public class CallService extends Service {
     private Chronometer chronometer;
     public Peer peer;
     private RelativeLayout params;
-    private static final String TAG = "ForegroundService";
-    private static final String CHANNEL_ID = "11111";
-    private static final String CHANNEL_NAME = "ForegroundServiceChannel";
-
-
-    public enum CallState {
-        TERMINATED,
-        CALLING,
-        ESTABLISHED
-    }
-
 
     @Override
     public void onCreate() {
@@ -107,7 +109,7 @@ public class CallService extends Service {
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void startMyOwnForeground(){
+    private void startMyOwnForeground() {
         String NOTIFICATION_CHANNEL_ID = "com.example.simpleapp";
         String channelName = "My Background Service";
         NotificationChannel chan = new NotificationChannel(NOTIFICATION_CHANNEL_ID, channelName, NotificationManager.IMPORTANCE_NONE);
@@ -127,14 +129,22 @@ public class CallService extends Service {
         startForeground(1, notification);
     }
 
+    void startLocalStream() {
+        Navigator.initialize(peer);
+        MediaConstraints constraints = new MediaConstraints();
+        _localStream = Navigator.getUserMedia(constraints);
+    }
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         Toast.makeText(this, "onStartCommand service", Toast.LENGTH_SHORT).show();
         peer.on(Peer.PeerEventEnum.OPEN, object -> {
-
+            // Request permissions
+            startLocalStream();
             // Show my ID
-            Toast.makeText(this, "peer id" + object, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "peer id: " + object, Toast.LENGTH_LONG).show();
+            Log.d("DDD", "peer id: " + object);
         });
 
         // Set volume control stream type to WebRTC audio.
@@ -163,6 +173,17 @@ public class CallService extends Service {
 
     private void showIncomingCall() {
         mWindowManager.addView(mGroupView, layoutParams);
+        ringing();
+    }
+
+    void ringing() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.alert_electrical_sweep);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+    }
+
+    void stopRing() {
+        mediaPlayer.stop();
     }
 
     private void initView() {
@@ -194,17 +215,18 @@ public class CallService extends Service {
         layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
         layoutParams.type = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
                 ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-                : WindowManager.LayoutParams.TYPE_PHONE ;
+                : WindowManager.LayoutParams.TYPE_PHONE;
         layoutParams.flags = WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS;
     }
 
     private void handleAnswer() {
+        stopRing();
         setMediaCallbacks();
         _callState = CallState.CALLING;
+        _mediaConnection.answer(_localStream);
         chronometer.start();
         chronometer.setEnabled(false);
         moveAnimation();
-
     }
 
     private void handleReject() {
@@ -212,6 +234,7 @@ public class CallService extends Service {
             _signalingChannel.send("reject");
             _callState = CallState.TERMINATED;
             mWindowManager.removeView(mGroupView);
+            stopRing();
         }
     }
 

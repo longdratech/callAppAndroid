@@ -1,18 +1,14 @@
 package com.ntt.ecl.webrtc.sample_p2p_call;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,7 +18,6 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.widget.Button;
@@ -33,7 +28,6 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-import io.skyway.Peer.Browser.Canvas;
 import io.skyway.Peer.Browser.MediaConstraints;
 import io.skyway.Peer.Browser.MediaStream;
 import io.skyway.Peer.Browser.Navigator;
@@ -67,6 +61,7 @@ public class MainActivity extends Activity {
     private MediaStream _remoteStream;
     private MediaConnection _mediaConnection;
     private DataConnection _signalingChannel;
+    private MediaPlayer mediaPlayer;
 
     private String _strOwnId;
 
@@ -85,6 +80,8 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
+
+        mediaPlayer  = MediaPlayer.create(this, R.raw.alert_electrical_sweep);
 
         _handler = new Handler(Looper.getMainLooper());
         final Activity activity = this;
@@ -128,7 +125,7 @@ public class MainActivity extends Activity {
             if (!(object instanceof MediaConnection)) {
                 return;
             }
-
+            ringing();
             _mediaConnection = (MediaConnection) object;
             _callState = CallState.CALLING;
             showIncomingCallDialog();
@@ -181,8 +178,6 @@ public class MainActivity extends Activity {
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 startLocalStream();
-            } else {
-                Toast.makeText(this, "Failed to access the camera and microphone.\nclick allow when asked for permission.", Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -191,34 +186,20 @@ public class MainActivity extends Activity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void checkDrawOverlayPermission() {
-        Log.v("App", "Package Name: " + getApplicationContext().getPackageName());
-
-        // check if we already  have permission to draw over other apps
         if (!Settings.canDrawOverlays(this)) {
-            Log.v("App", "Requesting Permission" + Settings.canDrawOverlays(this));
             // if not construct intent to request permission
             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
                     Uri.parse("package:" + getApplicationContext().getPackageName()));
             startActivityForResult(intent, REQUEST_CODE);
-        } else {
-            Log.v("App", "We already have permission for it.");
         }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.v("App", "OnActivity Result.");
-        //check if received result code
-        //  is equal our requested code for draw permission
         if (requestCode == REQUEST_CODE) {
             Settings.canDrawOverlays(this);
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
     }
 
     @Override
@@ -235,11 +216,11 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onStop() {
-        Intent intent = new Intent(this,CallService.class);
-        if(Build.VERSION.SDK_INT >=  Build.VERSION_CODES.O) {
+        Intent intent = new Intent(this, CallService.class);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             Toast.makeText(this, "startForegroundService", Toast.LENGTH_SHORT).show();
             startForegroundService(intent);
-        }else {
+        } else {
             Toast.makeText(this, "startService", Toast.LENGTH_SHORT).show();
             startService(intent);
         }
@@ -247,10 +228,9 @@ public class MainActivity extends Activity {
     }
 
 
-
     @Override
     protected void onDestroy() {
-        Log.d("DDD", "Distroy activity");
+        Log.d("DDD", "Destroy activity");
         destroyPeer();
         super.onDestroy();
     }
@@ -262,7 +242,7 @@ public class MainActivity extends Activity {
     }
 
     void setMediaCallbacks() {
-
+        stopRing();
         _mediaConnection.on(MediaConnection.MediaEventEnum.STREAM, object -> {
             _remoteStream = (MediaStream) object;
             _callState = CallState.ESTABLISHED;
@@ -357,6 +337,7 @@ public class MainActivity extends Activity {
     }
 
     void closeMediaConnection() {
+        stopRing();
         if (null != _mediaConnection) {
             if (_mediaConnection.isOpen()) {
                 _mediaConnection.close(true);
@@ -434,6 +415,17 @@ public class MainActivity extends Activity {
 
     AlertDialog incomingCallDialog;
 
+    void ringing() {
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+    }
+
+    void stopRing() {
+        if (mediaPlayer.isPlaying()) {
+            stopRing();
+        }
+    }
+
     void showIncomingCallDialog() {
         incomingCallDialog = new AlertDialog.Builder(this)
                 .setTitle("Incoming call")
@@ -445,6 +437,7 @@ public class MainActivity extends Activity {
                 })
                 .setNegativeButton("Reject", (dialogInterface, i) -> {
                     if (null != _signalingChannel) {
+                        stopRing();
                         _signalingChannel.send("reject");
                         _callState = CallState.TERMINATED;
                     }
@@ -454,6 +447,7 @@ public class MainActivity extends Activity {
 
     void dismissIncomingCallDialog() {
         if (null != incomingCallDialog) {
+            stopRing();
             incomingCallDialog.cancel();
             incomingCallDialog = null;
         }
