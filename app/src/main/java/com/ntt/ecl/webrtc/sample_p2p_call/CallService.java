@@ -22,6 +22,8 @@ import android.os.IBinder;
 import android.os.Message;
 import android.media.AudioManager;
 import android.os.SystemClock;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
@@ -71,6 +73,7 @@ public class CallService extends Service {
     private Chronometer chronometer;
     public Peer peer;
     private RelativeLayout params;
+    Vibrator v ;
 
     @Override
     public void onCreate() {
@@ -137,7 +140,7 @@ public class CallService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         Toast.makeText(this, "onStartCommand service", Toast.LENGTH_SHORT).show();
         peer.on(Peer.PeerEventEnum.OPEN, object -> {
             // Request permissions
@@ -179,11 +182,21 @@ public class CallService extends Service {
     void ringing() {
         mediaPlayer = MediaPlayer.create(this, R.raw.alert_electrical_sweep);
         mediaPlayer.setLooping(true);
+        long[] pattern = {0, 500, 1000};
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            v.vibrate(VibrationEffect.createWaveform(pattern, 0));
+        } else {
+            //deprecated in API 26
+            v.vibrate(500);
+        }
         mediaPlayer.start();
     }
 
     void stopRing() {
-        mediaPlayer.stop();
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+        }
+        v.cancel();
     }
 
     private void initView() {

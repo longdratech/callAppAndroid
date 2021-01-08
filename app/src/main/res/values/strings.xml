@@ -2,7 +2,7 @@
     <string name="app_name">Sample-P2P-Call</string>
     <string name="title_activity_video_chat">VideoCall</string>
     <string name="todo">TODO</string>
-    <string name="title">リバラブ</string>
+    <string name="title">Free Calling</string>
     <string name="name">Long Handsome</string>
     <string name="sub_title">電話の着信</string>
 </resources>

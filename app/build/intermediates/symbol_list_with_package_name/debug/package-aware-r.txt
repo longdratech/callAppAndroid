@@ -834,8 +834,7 @@ id beginning
 id blocking
 id bottom
 id bounce
-id btnCall
-id btnEnd
+id btnAction
 id buttonPanel
 id cache_measures
 id callerName
@@ -900,7 +899,6 @@ id ifRoom
 id ignore
 id ignoreRequest
 id image
-id imageView
 id imagenotileft
 id imagenotiright
 id info
@@ -921,7 +919,6 @@ id message
 id middle
 id motion_base
 id multiply
-id name
 id never
 id none
 id normal
@@ -987,7 +984,6 @@ id stop
 id stroke
 id submenuarrow
 id submit_area
-id subtitle
 id tabMode
 id tag_transition_group
 id tag_unhandled_key_event_manager
