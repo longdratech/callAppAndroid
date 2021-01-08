@@ -533,13 +533,13 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with <ns1:g example="Mail" id="application_name">%s</ns1:g></string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
-    <string name="app_name">Sample-P2P-Call</string>
+    <string name="app_name">Free Calling</string>
     <string name="name">Long Handsome</string>
     <string name="search_menu_title">Search</string>
     <string name="status_bar_notification_info_overflow">999+</string>
     <string name="sub_title">電話の着信</string>
     <string name="title">Free Calling</string>
-    <string name="title_activity_video_chat">VideoCall</string>
+    <string name="title_activity_video_chat">Free Calling</string>
     <string name="todo">TODO</string>
     <style name="AlertDialog.AppCompat" parent="Base.AlertDialog.AppCompat"/>
     <style name="AlertDialog.AppCompat.Light" parent="Base.AlertDialog.AppCompat.Light"/>

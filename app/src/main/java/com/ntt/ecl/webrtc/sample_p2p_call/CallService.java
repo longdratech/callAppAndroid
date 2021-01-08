@@ -59,6 +59,9 @@ import io.skyway.Peer.Peer;
 import io.skyway.Peer.PeerError;
 import io.skyway.Peer.PeerOption;
 
+import static com.ntt.ecl.webrtc.sample_p2p_call.Constants.API_KEY;
+import static com.ntt.ecl.webrtc.sample_p2p_call.Constants.DOMAIN;
+
 public class CallService extends Service {
     private MediaPlayer mediaPlayer;
     private DataConnection _signalingChannel;
@@ -73,41 +76,52 @@ public class CallService extends Service {
     private Chronometer chronometer;
     public Peer peer;
     private RelativeLayout params;
-    Vibrator v ;
+    private MediaStream _remoteStream;
+    Vibrator v;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        PeerOption option = new PeerOption();
-        option.key = Constants.API_KEY;
-        option.domain = Constants.DOMAIN;
-        peer = new Peer(this, option);
         Toast.makeText(this, "onCreate service", Toast.LENGTH_SHORT).show();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             startMyOwnForeground();
-        else
+        } else {
             startForeground(1, new Notification());
+        }
+        //
+        // Initialize Peer
+        //
+        PeerOption option = new PeerOption();
+        option.key = API_KEY;
+        option.domain = DOMAIN;
+        peer = new Peer(this, option);
     }
 
     void setSignalingCallbacks() {
-
         _signalingChannel.on(DataConnection.DataEventEnum.ERROR, object -> {
             PeerError error = (PeerError) object;
             Toast.makeText(this, "[On/DataError]" + error, Toast.LENGTH_SHORT).show();
         });
 
-        _signalingChannel.on(DataConnection.DataEventEnum.DATA, object -> {
-            String message = (String) object;
-            if (message.equals("cancel")) {
-                chronometer.setBase(SystemClock.elapsedRealtime());
-                chronometer.stop();
-                _callState = CallState.TERMINATED;
-                mWindowManager.removeView(mGroupView);
-            }
-
-            Toast.makeText(this, message + "[On/Data]", Toast.LENGTH_SHORT).show();
+        _signalingChannel.on(DataConnection.DataEventEnum.CLOSE, object -> {
+            Toast.makeText(this, "DataConnection.DataEventEnum.CLOSE", Toast.LENGTH_SHORT).show();
+            handleReject();
         });
 
+        _signalingChannel.on(DataConnection.DataEventEnum.DATA, object -> {
+            Toast.makeText(this, "DataConnection.DataEventEnum.DATA", Toast.LENGTH_SHORT).show();
+
+
+        });
+
+    }
+
+    void closeRemoteStream() {
+        if (null == _remoteStream) {
+            return;
+        }
+
+        _remoteStream.close();
     }
 
 
@@ -141,34 +155,52 @@ public class CallService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        Toast.makeText(this, "onStartCommand service", Toast.LENGTH_SHORT).show();
+
+
+        //
+        // Set Peer event callbacks
+        //
+
+        // OPEN
         peer.on(Peer.PeerEventEnum.OPEN, object -> {
-            // Request permissions
+            Toast.makeText(this, "Peer.PeerEventEnum.OPEN" + object, Toast.LENGTH_SHORT).show();
             startLocalStream();
             // Show my ID
-            Toast.makeText(this, "peer id: " + object, Toast.LENGTH_LONG).show();
-            Log.d("DDD", "peer id: " + object);
         });
 
-        // Set volume control stream type to WebRTC audio.
+        // CALL (Incoming call)
+        peer.on(Peer.PeerEventEnum.CALL, object -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.CALL", Toast.LENGTH_SHORT).show();
+            if (!(object instanceof MediaConnection)) {
+                return;
+            }
+            initView();
+            _mediaConnection = (MediaConnection) object;
+            _callState = CallState.CALLING;
+
+        });
+
         // CONNECT (Custom Signaling Channel for a call)
         peer.on(Peer.PeerEventEnum.CONNECTION, object -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.CONNECTION", Toast.LENGTH_SHORT).show();
             if (!(object instanceof DataConnection)) {
                 return;
             }
-
             _signalingChannel = (DataConnection) object;
             setSignalingCallbacks();
 
         });
-        // CALL (Incoming call)
-        peer.on(Peer.PeerEventEnum.CALL, object -> {
-            if (!(object instanceof MediaConnection)) {
-                return;
-            }
-            _mediaConnection = (MediaConnection) object;
-            _callState = CallState.CALLING;
-            initView();
+
+        peer.on(Peer.PeerEventEnum.CLOSE, object -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.CLOSE", Toast.LENGTH_SHORT).show();
+            handleReject();
+        });
+        peer.on(Peer.PeerEventEnum.DISCONNECTED, object -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.DISCONNECTED", Toast.LENGTH_SHORT).show();
+        });
+        peer.on(Peer.PeerEventEnum.ERROR, object -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.ERROR", Toast.LENGTH_SHORT).show();
+            PeerError error = (PeerError) object;
         });
 
         return START_STICKY;
@@ -193,7 +225,7 @@ public class CallService extends Service {
     }
 
     void stopRing() {
-        if(mediaPlayer.isPlaying()){
+        if (mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
         }
         v.cancel();
@@ -214,6 +246,7 @@ public class CallService extends Service {
         reject.setOnClickListener(v -> {
             if (null != _signalingChannel && CallState.CALLING == _callState) {
                 handleReject();
+
             }
         });
 
@@ -234,21 +267,20 @@ public class CallService extends Service {
 
     private void handleAnswer() {
         stopRing();
-        setMediaCallbacks();
-        _callState = CallState.CALLING;
         _mediaConnection.answer(_localStream);
-        chronometer.start();
-        chronometer.setEnabled(false);
+        setMediaCallbacks();
         moveAnimation();
     }
 
     private void handleReject() {
-        if (CallState.CALLING == _callState) {
-            _signalingChannel.send("reject");
-            _callState = CallState.TERMINATED;
-            mWindowManager.removeView(mGroupView);
-            stopRing();
-        }
+        stopRing();
+        closeRemoteStream();
+        _mediaConnection.close(true);
+        _signalingChannel.close(true);
+        _callState = CallState.TERMINATED;
+        Log.d("DDD", "hang up");
+        mWindowManager.removeView(mGroupView);
+
     }
 
     public void moveAnimation() {
@@ -278,7 +310,7 @@ public class CallService extends Service {
                 params.addView(reject);
                 reject.setOnClickListener(view -> {
                     handleReject();
-                    Log.d("DDD", "end callll");
+
                 });
             }
 
@@ -290,17 +322,20 @@ public class CallService extends Service {
     }
 
     void setMediaCallbacks() {
-
         _mediaConnection.on(MediaConnection.MediaEventEnum.STREAM, object -> {
+            Toast.makeText(this, "MediaConnection.MediaEventEnum.STREAM", Toast.LENGTH_LONG).show();
+            _remoteStream = (MediaStream) object;
             _callState = CallState.ESTABLISHED;
         });
 
         _mediaConnection.on(MediaConnection.MediaEventEnum.CLOSE, object -> {
-            _signalingChannel.close(true);
-            _callState = CallState.TERMINATED;
+            Toast.makeText(CallService.this, "MediaConnection.MediaEventEnum.CLOSE", Toast.LENGTH_SHORT).show();
+            handleReject();
+
         });
 
         _mediaConnection.on(MediaConnection.MediaEventEnum.ERROR, object -> {
+            Toast.makeText(this, "MediaConnection.MediaEventEnum.ERROR", Toast.LENGTH_LONG).show();
             PeerError error = (PeerError) object;
         });
 
