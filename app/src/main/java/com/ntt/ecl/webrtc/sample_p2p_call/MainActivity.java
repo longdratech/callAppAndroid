@@ -106,76 +106,63 @@ public class MainActivity extends Activity {
         //
 
         // OPEN
-        _peer.on(Peer.PeerEventEnum.OPEN, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
+        _peer.on(Peer.PeerEventEnum.OPEN, object -> {
+            Toast.makeText(MainActivity.this, "Peer.PeerEventEnum.OPEN", Toast.LENGTH_SHORT).show();
+            // Show my ID
+            _strOwnId = (String) object;
+            TextView tvOwnId = (TextView) findViewById(R.id.txtPeerId);
+            tvOwnId.setText(_strOwnId);
 
-                // Show my ID
-                _strOwnId = (String) object;
-                TextView tvOwnId = (TextView) findViewById(R.id.txtPeerId);
-                tvOwnId.setText(_strOwnId);
+            // Request permissions
+            if (ContextCompat.checkSelfPermission(activity,
+                    Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity,
+                    Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO}, 0);
+            } else {
 
-                // Request permissions
-                if (ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(activity,
-                        Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO}, 0);
-                } else {
-
-                    // Get a local MediaStream & show it
-                    startLocalStream();
-                }
-
+                // Get a local MediaStream & show it
+                startLocalStream();
             }
+
         });
 
         // CALL (Incoming call)
-        _peer.on(Peer.PeerEventEnum.CALL, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                if (!(object instanceof MediaConnection)) {
-                    return;
-                }
-
-                _mediaConnection = (MediaConnection) object;
-                _callState = CallState.CALLING;
-                showIncomingCallDialog();
-
+        _peer.on(Peer.PeerEventEnum.CALL, object -> {
+            Toast.makeText(MainActivity.this, "Peer.PeerEventEnum.CALL", Toast.LENGTH_SHORT).show();
+            if (!(object instanceof MediaConnection)) {
+                return;
             }
+
+            _mediaConnection = (MediaConnection) object;
+            _callState = CallState.CALLING;
+            showIncomingCallDialog();
+
         });
 
         // CONNECT (Custom Signaling Channel for a call)
-        _peer.on(Peer.PeerEventEnum.CONNECTION, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                if (!(object instanceof DataConnection)) {
-                    return;
-                }
-
-                _signalingChannel = (DataConnection) object;
-                setSignalingCallbacks();
-
+        _peer.on(Peer.PeerEventEnum.CONNECTION, object -> {
+            Toast.makeText(MainActivity.this, "Peer.PeerEventEnum.CONNECTION", Toast.LENGTH_SHORT).show();
+            if (!(object instanceof DataConnection)) {
+                return;
             }
+
+            _signalingChannel = (DataConnection) object;
+            setSignalingCallbacks();
+
         });
 
-        _peer.on(Peer.PeerEventEnum.CLOSE, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                Log.d(TAG, "[On/Close]");
-            }
+        _peer.on(Peer.PeerEventEnum.CLOSE, object -> {
+            Toast.makeText(MainActivity.this, "Peer.PeerEventEnum.CLOSE", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "[On/Close]");
         });
-        _peer.on(Peer.PeerEventEnum.DISCONNECTED, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                Log.d(TAG, "[On/Disconnected]");
-            }
+        _peer.on(Peer.PeerEventEnum.DISCONNECTED, object -> {
+            Toast.makeText(MainActivity.this, "Peer.PeerEventEnum.DISCONNECTED", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "[On/Disconnected]");
         });
-        _peer.on(Peer.PeerEventEnum.ERROR, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                PeerError error = (PeerError) object;
-                Log.d(TAG, "[On/Error]" + error.getMessage());
-            }
+        _peer.on(Peer.PeerEventEnum.ERROR, object -> {
+            Toast.makeText(MainActivity.this, "Peer.PeerEventEnum.ERROR", Toast.LENGTH_SHORT).show();
+            PeerError error = (PeerError) object;
+            Log.d(TAG, "[On/Error]" + error.getMessage());
         });
 
 
@@ -183,41 +170,25 @@ public class MainActivity extends Activity {
         // Set GUI event listeners
         //
 
-        Button btnAction = (Button) findViewById(R.id.btnAction);
+        Button btnAction = findViewById(R.id.btnAction);
         btnAction.setEnabled(true);
-        btnAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                v.setEnabled(false);
+        btnAction.setOnClickListener(v -> {
+            v.setEnabled(false);
 
-                if (CallState.TERMINATED == _callState) {
-
-                    // Select remote peer & make a call
-                    showPeerIDs();
-                } else if (CallState.CALLING == _callState) {
-
-                    // Cancel a call
-                    if (null != _signalingChannel) {
-                        _signalingChannel.send("cancel");
-                        stopRing();
-                    }
-                    _callState = CallState.TERMINATED;
-                    updateActionButtonTitle();
-
-                } else {
-
-                    // Hang up a call
-                    stopRing();
-                    closeRemoteStream();
-                    _mediaConnection.close(true);
-                    _signalingChannel.close(true);
-                    _callState = CallState.TERMINATED;
-                    updateActionButtonTitle();
-
-                }
-
-                v.setEnabled(true);
+            if (CallState.TERMINATED == _callState) {
+                // Select remote peer & make a call
+                showPeerIDs();
+            } else {
+                // Hang up a call
+                stopRing();
+                closeRemoteStream();
+                _mediaConnection.close(true);
+                _signalingChannel.close(true);
+                _callState = CallState.TERMINATED;
+                updateActionButtonTitle();
             }
+
+            v.setEnabled(true);
         });
 
     }
@@ -331,31 +302,25 @@ public class MainActivity extends Activity {
     //
     void setMediaCallbacks() {
 
-        _mediaConnection.on(MediaConnection.MediaEventEnum.STREAM, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                _remoteStream = (MediaStream) object;
-                _callState = CallState.ESTABLISHED;
-                updateActionButtonTitle();
-            }
+        _mediaConnection.on(MediaConnection.MediaEventEnum.STREAM, object -> {
+            Toast.makeText(MainActivity.this, "MediaConnection.MediaEventEnum.STREAM", Toast.LENGTH_SHORT).show();
+            _remoteStream = (MediaStream) object;
+            _callState = CallState.ESTABLISHED;
+            updateActionButtonTitle();
         });
 
-        _mediaConnection.on(MediaConnection.MediaEventEnum.CLOSE, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                closeRemoteStream();
-                _signalingChannel.close(true);
-                _callState = CallState.TERMINATED;
-                updateActionButtonTitle();
-            }
+        _mediaConnection.on(MediaConnection.MediaEventEnum.CLOSE, object -> {
+            Toast.makeText(MainActivity.this, "MediaConnection.MediaEventEnum", Toast.LENGTH_SHORT).show();
+            closeRemoteStream();
+            _signalingChannel.close(true);
+            _callState = CallState.TERMINATED;
+            updateActionButtonTitle();
         });
 
-        _mediaConnection.on(MediaConnection.MediaEventEnum.ERROR, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                PeerError error = (PeerError) object;
-                Log.d(TAG, "[On/MediaError]" + error);
-            }
+        _mediaConnection.on(MediaConnection.MediaEventEnum.ERROR, object -> {
+            Toast.makeText(MainActivity.this, "MediaConnection.MediaEventEnum.ERROR", Toast.LENGTH_SHORT).show();
+            PeerError error = (PeerError) object;
+            Log.d(TAG, "[On/MediaError]" + error);
         });
 
     }
@@ -364,49 +329,36 @@ public class MainActivity extends Activity {
     // Set callbacks for DataConnection.DataEvents
     //
     void setSignalingCallbacks() {
-        _signalingChannel.on(DataConnection.DataEventEnum.OPEN, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
+        _signalingChannel.on(DataConnection.DataEventEnum.OPEN, object -> Toast.makeText(MainActivity.this, "DataConnection.DataEventEnum.OPEN", Toast.LENGTH_SHORT).show());
 
-            }
+        _signalingChannel.on(DataConnection.DataEventEnum.CLOSE, object -> {
+            Toast.makeText(MainActivity.this, "DataConnection.DataEventEnum.CLOSE", Toast.LENGTH_SHORT).show();
+            stopRing();
+            closeRemoteStream();
+            _mediaConnection.close(true);
+            _signalingChannel.close(true);
+            _callState = CallState.TERMINATED;
+            updateActionButtonTitle();
+            dismissIncomingCallDialog();
+
         });
 
-        _signalingChannel.on(DataConnection.DataEventEnum.CLOSE, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-
-            }
+        _signalingChannel.on(DataConnection.DataEventEnum.ERROR, object -> {
+            Toast.makeText(MainActivity.this, "DataConnection.DataEventEnum.ERROR", Toast.LENGTH_SHORT).show();
+            PeerError error = (PeerError) object;
+            Log.d(TAG, "[On/DataError]" + error);
         });
 
-        _signalingChannel.on(DataConnection.DataEventEnum.ERROR, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                PeerError error = (PeerError) object;
-                Log.d(TAG, "[On/DataError]" + error);
-            }
-        });
+        _signalingChannel.on(DataConnection.DataEventEnum.DATA, object -> {
+            Toast.makeText(MainActivity.this, "DataConnection.DataEventEnum.DATA", Toast.LENGTH_SHORT).show();
+            String message = (String) object;
+            Log.d(TAG, "[On/Data]" + message);
 
-        _signalingChannel.on(DataConnection.DataEventEnum.DATA, new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                String message = (String) object;
-                Log.d(TAG, "[On/Data]" + message);
-
-                switch (message) {
-                    case "reject":
-                        closeMediaConnection();
-                        _signalingChannel.close(true);
-                        _callState = CallState.TERMINATED;
-                        updateActionButtonTitle();
-                        break;
-                    case "cancel":
-                        closeMediaConnection();
-                        _signalingChannel.close(true);
-                        _callState = CallState.TERMINATED;
-                        updateActionButtonTitle();
-                        dismissIncomingCallDialog();
-                        break;
-                }
+            if ("reject".equals(message)) {
+                closeMediaConnection();
+                _signalingChannel.close(true);
+                _callState = CallState.TERMINATED;
+                updateActionButtonTitle();
             }
         });
 
@@ -448,12 +400,24 @@ public class MainActivity extends Activity {
             return;
         }
 
-        peer.on(Peer.PeerEventEnum.OPEN, null);
-        peer.on(Peer.PeerEventEnum.CONNECTION, null);
-        peer.on(Peer.PeerEventEnum.CALL, null);
-        peer.on(Peer.PeerEventEnum.CLOSE, null);
-        peer.on(Peer.PeerEventEnum.DISCONNECTED, null);
-        peer.on(Peer.PeerEventEnum.ERROR, null);
+        peer.on(Peer.PeerEventEnum.OPEN, o -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.OPEN" + o, Toast.LENGTH_LONG).show();
+        });
+        peer.on(Peer.PeerEventEnum.CONNECTION, o -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.CONNECTION" + o, Toast.LENGTH_LONG).show();
+        });
+        peer.on(Peer.PeerEventEnum.CALL, o -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.CALL" + o, Toast.LENGTH_LONG).show();
+        });
+        peer.on(Peer.PeerEventEnum.CLOSE, o -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.CLOSE" + o, Toast.LENGTH_LONG).show();
+        });
+        peer.on(Peer.PeerEventEnum.DISCONNECTED, o -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.DISCONNECTED" + o, Toast.LENGTH_LONG).show();
+        });
+        peer.on(Peer.PeerEventEnum.ERROR, o -> {
+            Toast.makeText(this, "Peer.PeerEventEnum.ERROR" + o, Toast.LENGTH_LONG).show();
+        });
     }
 
     //
@@ -464,9 +428,15 @@ public class MainActivity extends Activity {
             return;
         }
 
-        _mediaConnection.on(MediaConnection.MediaEventEnum.STREAM, null);
-        _mediaConnection.on(MediaConnection.MediaEventEnum.CLOSE, null);
-        _mediaConnection.on(MediaConnection.MediaEventEnum.ERROR, null);
+        _mediaConnection.on(MediaConnection.MediaEventEnum.STREAM, o -> {
+            Toast.makeText(this, "MediaConnection.MediaEventEnum.STREAM" + o, Toast.LENGTH_LONG).show();
+        });
+        _mediaConnection.on(MediaConnection.MediaEventEnum.CLOSE, o -> {
+            Toast.makeText(this, "MMediaConnection.MediaEventEnum.CLOSE" + o, Toast.LENGTH_LONG).show();
+        });
+        _mediaConnection.on(MediaConnection.MediaEventEnum.ERROR, o -> {
+            Toast.makeText(this, "PMediaConnection.MediaEventEnum.ERROR" + o, Toast.LENGTH_LONG).show();
+        });
     }
 
     //
@@ -512,6 +482,7 @@ public class MainActivity extends Activity {
 
         // custom P2P signaling channel to reject call attempt
         _signalingChannel = _peer.connect(strPeerId);
+
         if (null != _signalingChannel) {
             setSignalingCallbacks();
         }
@@ -530,50 +501,37 @@ public class MainActivity extends Activity {
 
         // Get all IDs connected to the server
         final Context fContext = this;
-        _peer.listAllPeers(new OnCallback() {
-            @Override
-            public void onCallback(Object object) {
-                if (!(object instanceof JSONArray)) {
-                    return;
-                }
+        _peer.listAllPeers(object -> {
+            if (!(object instanceof JSONArray)) {
+                return;
+            }
 
-                JSONArray peers = (JSONArray) object;
-                ArrayList<String> _listPeerIds = new ArrayList<>();
-                String peerId;
+            JSONArray peers = (JSONArray) object;
+            ArrayList<String> _listPeerIds = new ArrayList<>();
+            String peerId;
 
-                // Exclude my own ID
-                for (int i = 0; peers.length() > i; i++) {
-                    try {
-                        peerId = peers.getString(i);
-                        if (!_strOwnId.equals(peerId)) {
-                            _listPeerIds.add(peerId);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+            // Exclude my own ID
+            for (int i = 0; peers.length() > i; i++) {
+                try {
+                    peerId = peers.getString(i);
+                    if (!_strOwnId.equals(peerId)) {
+                        _listPeerIds.add(peerId);
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+            }
 
-                // Show IDs using DialogFragment
-                if (0 < _listPeerIds.size()) {
-                    FragmentManager mgr = getFragmentManager();
-                    PeerListDialogFragment dialog = new PeerListDialogFragment();
-                    dialog.setListener(
-                            new PeerListDialogFragment.PeerListDialogFragmentListener() {
-                                @Override
-                                public void onItemClick(final String item) {
-                                    _handler.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            onPeerSelected(item);
-                                        }
-                                    });
-                                }
-                            });
-                    dialog.setItems(_listPeerIds);
-                    dialog.show(mgr, "peerlist");
-                } else {
-                    Toast.makeText(fContext, "PeerID list (other than your ID) is empty.", Toast.LENGTH_SHORT).show();
-                }
+            // Show IDs using DialogFragment
+            if (0 < _listPeerIds.size()) {
+                FragmentManager mgr = getFragmentManager();
+                PeerListDialogFragment dialog = new PeerListDialogFragment();
+                dialog.setListener(
+                        item -> _handler.post(() -> onPeerSelected(item)));
+                dialog.setItems(_listPeerIds);
+                dialog.show(mgr, "peerlist");
+            } else {
+                Toast.makeText(fContext, "PeerID list (other than your ID) is empty.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -583,18 +541,13 @@ public class MainActivity extends Activity {
     // Update actionButton title
     //
     void updateActionButtonTitle() {
-        _handler.post(new Runnable() {
-            @Override
-            public void run() {
-                Button btnAction = (Button) findViewById(R.id.btnAction);
-                if (null != btnAction) {
-                    if (CallState.TERMINATED == _callState) {
-                        btnAction.setText("Make Call");
-                    } else if (CallState.CALLING == _callState) {
-                        btnAction.setText("Cancel");
-                    } else {
-                        btnAction.setText("Hang up");
-                    }
+        _handler.post(() -> {
+            Button btnAction = findViewById(R.id.btnAction);
+            if (null != btnAction) {
+                if (CallState.TERMINATED == _callState) {
+                    btnAction.setText("Make Call");
+                } else {
+                    btnAction.setText("Hang up");
                 }
             }
         });
@@ -610,24 +563,19 @@ public class MainActivity extends Activity {
         incomingCallDialog = new AlertDialog.Builder(this)
                 .setTitle("Incoming call")
                 .setMessage("from : " + _mediaConnection.peer())
-                .setPositiveButton("Answer", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        _mediaConnection.answer(_localStream);
-                        stopRing();
-                        setMediaCallbacks();
-                        _callState = CallState.ESTABLISHED;
-                        updateActionButtonTitle();
-                    }
+                .setPositiveButton("Answer", (dialogInterface, i) -> {
+                    _mediaConnection.answer(_localStream);
+                    stopRing();
+                    setMediaCallbacks();
+                    _callState = CallState.ESTABLISHED;
+                    updateActionButtonTitle();
                 })
-                .setNegativeButton("Reject", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (null != _signalingChannel) {
-                            stopRing();
-                            _signalingChannel.send("reject");
-                            _callState = CallState.TERMINATED;
-                        }
+                .setNegativeButton("Reject", (dialogInterface, i) -> {
+                    if (null != _signalingChannel) {
+                        stopRing();
+                        _signalingChannel.close(true);
+                        _callState = CallState.TERMINATED;
+                        updateActionButtonTitle();
                     }
                 })
                 .show();
